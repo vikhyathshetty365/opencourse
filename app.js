@@ -31,7 +31,7 @@ app.use(
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.status(201).send(<h1>Server Deployed</h1>)
+    res.send('<h1>Server Deployed</h1>')
 })
 app.use('/api/v1/user', userRoute)
 
