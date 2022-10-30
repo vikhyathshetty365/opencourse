@@ -6,7 +6,7 @@ import cloudinary from 'cloudinary'
 import razorpay from 'razorpay'
 
 import nodecron from 'node-cron'
-//import { Stats } from './Schema/Stats.js'
+import { Stats } from './Schema/Stats.js'
 
 export const instance = new razorpay({
     key_id: process.env.RAZORPAY_ID,
@@ -21,13 +21,13 @@ cloudinary.v2.config({
 });
 
 /*const test = async () => {
-    await Stats.create({})
+   
 }
 
 test()*/
 nodecron.schedule("0 0 0 1 * *", async () => {
     try {
-
+        await Stats.create({})
     }
     catch (error) {
         console.log(error);
