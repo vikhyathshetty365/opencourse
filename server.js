@@ -4,10 +4,10 @@ import { ErrorMiddleware } from './middleware/Error.js';
 
 import cloudinary from 'cloudinary'
 import razorpay from 'razorpay'
-
+import connectDB from './config/ConnectDB.js'
 import nodecron from 'node-cron'
 import { Stats } from './Schema/Stats.js'
-
+connectDB()
 export const instance = new razorpay({
     key_id: process.env.RAZORPAY_ID,
     key_secret: process.env.RAZORPAY_SECRET
