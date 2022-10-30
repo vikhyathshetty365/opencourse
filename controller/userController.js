@@ -79,7 +79,11 @@ export const logout = async (req, res, next) => {
 
     try {
         res.status(200).cookie("token", null, {
-            expires: new Date(Date.now())
+            expires: new Date(Date.now()),
+            secure: true,
+            httpOnly: true,
+            sameSite: "none",
+
         }).json({ success: true, message: "logout successfull" })
 
 
