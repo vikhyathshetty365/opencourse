@@ -42,8 +42,8 @@ export const getAllCourses = async (req, res, next) => {
 
     try {
 
-        const key = req.query.key;
-        const category = req.query.category;
+        const key = req.query.key || "";
+        const category = req.query.category || "";
 
         console.log(key, category)
         const courses = await Course.find({
