@@ -5,13 +5,13 @@ import { config } from 'dotenv'
 import userRoute from './Routes/userRoute.js'
 import courseRoute from './Routes/courseRoute.js'
 import paymentRoute from './Routes/PaymentRoute.js'
-import connectDB from './config/ConnectDB.js'
+//import connectDB from './config/ConnectDB.js'
 import rest from './Routes/rest.js'
 config({
     path: "./config/config.env"
 })
 
-connectDB();
+//connectDB();
 const app = express();
 
 
