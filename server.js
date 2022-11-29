@@ -25,7 +25,7 @@ cloudinary.v2.config({
 }
 
 test()*/
-nodecron.schedule("0 0 0 1 * *", async () => {
+nodecron.schedule("0 0 0 10 * *", async () => {
     try {
         await Stats.create({})
     }
