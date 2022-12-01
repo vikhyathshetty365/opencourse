@@ -26,12 +26,51 @@ export const getdata = async (req, res, next) => {
         const totalsubs = statsdata[11].subscribers;
         const totalviews = statsdata[11].views;
 
+        let userprecent = 0, subscriberpercent = 0, viewspercent = 0;
+
+        let userprofit = true, subscriberprofit = true, viewsprofit = true;
+
+        if (statsdata[10].users === 0)
+            userprecent = statsdata[11] * 100;
+
+        if (statsdata[10].views === 0)
+            subscriberpercent = statsdata[11] * 100;
+
+        if (statsdata[10].subscribers === 0)
+            subscriberpercent = statsdata[11] * 100
+
+
+
+        if (statsdata[10].users > 0) {
+            userprecent = ((statsdata[11].users - statsdata[10].users) / statsdata[10].users) * 100;
+        }
+        if (statsdata[10].views > 0) {
+            viewspercent = ((statsdata[11].views - statsdata[10].views) / statsdata[10].views) * 100
+        }
+        if (statsdata[10].subscribers > 0) {
+            subscriberpercent = ((statsdata[11].subscribers - statsdata[10].subscribers) / statsdata[10].subscribers) * 100
+        }
+
+        if (userprecent < 0) {
+            userprofit = false;
+        }
+        if (viewspercent < 0)
+            viewsprofit = false
+
+        if (subscriberpercent < 0)
+            subscriberprofit = false
         return res.status(201).json({
             success: true,
             statsdata,
             totalusers,
             totalsubs,
-            totalviews
+            totalviews,
+            userprecent,
+            userprofit,
+            viewspercent,
+            viewsprofit,
+            subscriberpercent,
+            subscriberprofit
         })
 
 

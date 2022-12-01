@@ -227,8 +227,8 @@ Course.watch().on('change', async () => {
         }
 
         stat[0].views = cnt;
-        stat[0].users = await User.countDocuments()
-        stat[0].subscribers = subscription.length
+        //stat[0].users = await User.countDocuments()
+        //stat[0].subscribers = subscription.length
         stat[0].createdAt = new Date(Date.now());
         await stat[0].save()
     }
