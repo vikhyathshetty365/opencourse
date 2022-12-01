@@ -2,6 +2,7 @@ import { Course } from '../Schema/Course.js'
 import { getUri } from '../middleware/multer.js'
 import cloudinary from 'cloudinary'
 import { Stats } from '../Schema/Stats.js'
+import { User } from '../Schema/User.js'
 export const createCourse = async (req, res, next) => {
     try {
 
@@ -216,7 +217,7 @@ Course.watch().on('change', async () => {
     try {
 
         const stat = await Stats.find({}).sort({ createdAt: 'desc' }).limit(1)
-
+        const subscription = await User.find({ 'subscription.status': 'active' })
         const courses = await Course.find({})
 
         let cnt = 0;
@@ -226,6 +227,8 @@ Course.watch().on('change', async () => {
         }
 
         stat[0].views = cnt;
+        stat[0].users = await User.countDocuments()
+        stat[0].subscribers = subscription.length
         stat[0].createdAt = new Date(Date.now());
         await stat[0].save()
     }

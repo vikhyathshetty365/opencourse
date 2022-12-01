@@ -25,9 +25,12 @@ cloudinary.v2.config({
 }
 
 test()*/
-nodecron.schedule("0 0 0 10 * *", async () => {
+nodecron.schedule('43 13 1 * *', async () => {
+    console.log('hi')
     try {
+        console.log('hi')
         await Stats.create({})
+
     }
     catch (error) {
         console.log(error);
