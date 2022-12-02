@@ -23,7 +23,7 @@ app.use(
 app.use(cookieParser());
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"],
     })
@@ -31,7 +31,7 @@ app.use(
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.send('<h1>Server Deployed</h1>')
+    res.send('<h1>Server Deployed!!!🚀🚀</h1>')
 })
 app.use('/api/v1/user', userRoute)
 
