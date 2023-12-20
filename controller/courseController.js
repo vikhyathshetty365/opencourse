@@ -3,6 +3,10 @@ import { getUri } from '../middleware/multer.js'
 import cloudinary from 'cloudinary'
 import { Stats } from '../Schema/Stats.js'
 import { User } from '../Schema/User.js'
+<<<<<<< Updated upstream
+=======
+import { Docs } from '../Schema/Docs.js'
+>>>>>>> Stashed changes
 export const createCourse = async (req, res, next) => {
     try {
 
@@ -34,10 +38,107 @@ export const createCourse = async (req, res, next) => {
 
     }
     catch (err) {
+<<<<<<< Updated upstream
+=======
+
+        console.log(`vik:${err.message}`)
+>>>>>>> Stashed changes
         return next(new Error(err.message));
     }
 
 }
+
+
+export const createDocs = async (req, res, next) => {
+    try {
+
+
+        const { title, Description, category } = req.body
+
+
+        const file = getUri(req.file)
+
+        console.log(file)
+
+        const image = await cloudinary.v2.uploader.upload(file.content)
+        const Doc = await Docs.create({
+            title: title,
+            Description: Description,
+            createdBy: req.user._id,
+            category: category,
+            poster: {
+                public_id: image.public_id,
+                url: image.secure_url
+            }
+
+        })
+
+
+
+
+
+        return res.status(200).json({ success: true, Doc })
+
+    }
+    catch (err) {
+        console.log(`vik:${err.message}`)
+        return next(new Error(err.message));
+    }
+}
+
+
+export const Adddocs = async (req, res, next) => {
+    try {
+
+        console.log('hi')
+        //const courseId = req.params.id;
+        //console.log(courseId);
+        const Doc = await Docs.findById(req.params.id);
+        // console.log(course)
+        if (!Doc)
+            return next(new Error("Course not found"))
+        //console.log(req.body)
+        const { title, description, type } = req.body
+
+        console.log(title, description)
+        const file = getUri(req.file)
+
+        console.log(file)
+
+
+        const cloud = await cloudinary.v2.uploader.upload(file.content, {
+            resource_type: "raw",
+            format: 'pdf'
+        })
+
+        //const cloud = await cloudinary.v2.uploader.upload(file.content)
+
+        Doc.lectures.push({
+            title: title,
+            description: description,
+            pdf: {
+                public_id: cloud.public_id,
+                url: cloud.secure_url
+            }
+
+        })
+
+        Doc.NumOfVideos = Doc.lectures.length
+
+        await Doc.save();
+
+        return res.status(201).json({
+            success: true,
+            lectures: Doc.lectures
+        })
+
+    }
+    catch (err) {
+
+        return next(new Error(err));
+    }
+}
+
 
 export const getAllCourses = async (req, res, next) => {
 
@@ -94,12 +195,13 @@ export const AddLecture = async (req, res, next) => {
         if (!course)
             return next(new Error("Course not found"))
         //console.log(req.body)
-        const { title, description } = req.body
+        const { title, description, type } = req.body
 
         console.log(title, description)
         const file = getUri(req.file)
 
         console.log(file)
+
 
         const cloud = await cloudinary.v2.uploader.upload(file.content, {
             resource_type: "video"
