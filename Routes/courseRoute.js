@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCourse, getAllCourses, getLectures, AddLecture, createDocs, Adddocs } from '../controller/courseController.js'
+import { createCourse, getAllCourses, getLectures, AddLecture, createDocs, Adddocs, getDocs, getDoc } from '../controller/courseController.js'
 import { isAuth, isSubscriber, isAdmin } from '../middleware/Auth.js'
 import { multerUploads } from '../middleware/multer.js'
 
@@ -18,4 +18,6 @@ router.route('/addlecture/:id').post(isAuth, isAdmin, multerUploads, AddLecture)
 
 router.route('/createDocs').post(isAuth, isAdmin, multerUploads, createDocs)
 router.route('/adddocs/:id').post(isAuth, isAdmin, multerUploads, Adddocs)
+router.route('/getDocs').get(getDocs)
+router.route('/getdoc/:id').get(isAuth, getDoc)
 export default router

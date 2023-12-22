@@ -3,10 +3,7 @@ import { getUri } from '../middleware/multer.js'
 import cloudinary from 'cloudinary'
 import { Stats } from '../Schema/Stats.js'
 import { User } from '../Schema/User.js'
-<<<<<<< Updated upstream
-=======
 import { Docs } from '../Schema/Docs.js'
->>>>>>> Stashed changes
 export const createCourse = async (req, res, next) => {
     try {
 
@@ -38,11 +35,10 @@ export const createCourse = async (req, res, next) => {
 
     }
     catch (err) {
-<<<<<<< Updated upstream
-=======
+
 
         console.log(`vik:${err.message}`)
->>>>>>> Stashed changes
+
         return next(new Error(err.message));
     }
 
@@ -93,6 +89,7 @@ export const Adddocs = async (req, res, next) => {
         console.log('hi')
         //const courseId = req.params.id;
         //console.log(courseId);
+        console.log(`id-->${req.params.id}`)
         const Doc = await Docs.findById(req.params.id);
         // console.log(course)
         if (!Doc)
@@ -136,6 +133,22 @@ export const Adddocs = async (req, res, next) => {
     catch (err) {
 
         return next(new Error(err));
+    }
+}
+
+export const getDocs = async (req, res, next) => {
+    try {
+
+        const docs = await Docs.find({}).select('-lectures');
+
+        if (!docs)
+            return next(new Error("Documents not found"))
+
+        return res.status(200).json({ success: true, documents: docs })
+    }
+    catch (err) {
+
+        return next(new Error(err.message));
     }
 }
 
@@ -235,6 +248,23 @@ export const AddLecture = async (req, res, next) => {
     }
 }
 
+export const getDoc = async (req, res, next) => {
+    try {
+        const Doc = await Docs.findById(req.params.id)
+        if (!Doc)
+            return next(new Error('Document not found'));
+
+        Doc.views += 1;
+        await Doc.save()
+        return res.status(200).json({
+            success: true,
+            document: Doc
+        })
+    }
+    catch (err) {
+        return next(new Error(err.message))
+    }
+}
 
 export const getLectures = async (req, res, next) => {
 
